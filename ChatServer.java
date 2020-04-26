@@ -246,7 +246,7 @@ final class ChatServer {
                     return;
                 }
                 else if(cm.getType() == 2)   {
-                    directMessage(cm.getMessage(), cm.getRecipient());
+                    directMessage(CCP.filter(cm.getMessage()), cm.getRecipient());
                     //broadcast(username + ":! " + CCP.filter(cm.getMessage()));
                 }
                 //This has to be dead so the server doesnt respond to type 3 messages
