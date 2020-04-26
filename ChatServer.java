@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,9 +88,9 @@ final class ChatServer {
 
 
         //Sends message to ALL clients
-        for(ClientThread x : clients)   {
-            x.writeMessage(message + " " +  tempDate);
-        }
+            for (ClientThread x : clients) {
+                x.writeMessage(message + " " + tempDate);
+            }
     }
 
 
@@ -159,7 +160,7 @@ final class ChatServer {
            try {
                sOutput.writeObject(message);
            } catch (IOException e) {
-               e.printStackTrace();
+               //TODO THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
            }
            return true;
        }
@@ -253,6 +254,8 @@ final class ChatServer {
                 String tempCheck = cm.getMessage();
 
                 if(cm.getType() == 1)   {
+                    broadcast("System: " + username + " has logged out of the chat!");
+                    remove(id);
                     close();
                     return;
                 }
@@ -282,7 +285,8 @@ final class ChatServer {
                     writeMessage(temp);
                 }
                 else    {
-                    broadcast(username + ": " + CCP.filter(cm.getMessage()));
+                        broadcast(username + ": " + CCP.filter(cm.getMessage()));
+
                 }
 
 

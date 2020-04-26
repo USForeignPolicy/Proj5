@@ -23,6 +23,8 @@ final class ChatClient {
 
     private static boolean memeCheck = false;
 
+    static boolean closeClient = false;
+
     private ChatClient(String server, int port, String username) {
         this.server = server;
         this.port = port;
@@ -82,7 +84,8 @@ final class ChatClient {
             sOutput.close();
             socket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("You have logged out!");
+            closeClient = true;
         }
     }
 
@@ -137,6 +140,7 @@ final class ChatClient {
                     client.sendMessage(new ChatMessage(temp, 1));
                     memeCheck = true;
                     client.closeClient();
+                    closeClient = true;
                     return;
 
             }
@@ -177,13 +181,18 @@ final class ChatClient {
     private final class ListenFromServer implements Runnable {
         public void run() {
             try {
+                if(closeClient == true)
+                    return;
                 while(true || memeCheck != true) {
                     String msg = (String) sInput.readObject();
                     //might have to change this back to PRINT, made it PRINTLN since it looked ugly as fuck
                     System.out.println(msg);
                 }
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                if(closeClient == false)
+                    e.printStackTrace();
+                else
+                    System.out.println("You have logged out!");
             }
         }
     }
