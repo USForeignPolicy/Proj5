@@ -87,6 +87,7 @@ public class ChatFilter {
     }
 
 
+    //TODO returns a string of ****** with the same length as the given string
     public String numStars(int starLength)    {
         String temp = "";
         for(int i = 0; i < starLength; i ++)
@@ -94,6 +95,8 @@ public class ChatFilter {
         return temp;
     }
 
+
+    //TODO Returns the Array of Badwords
     public ArrayList<String> getBadArr()    {
         return badArr;
     }
