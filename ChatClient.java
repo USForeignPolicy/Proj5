@@ -128,14 +128,34 @@ final class ChatClient {
         //TODO THIS IS WHERE THE CLIENT SENDS MESSAGES
         Scanner myObj = new Scanner(System.in);
 
+
+        //TODO THERE IS AN ERROR HERE FOR MESSAGE IF IT HAS NO PARAMETERS  - FIXED
         while(true) {
             String temp = myObj.nextLine();
+
             if(temp.length() >= 7 && temp.substring(0,7).equals("/logout"))    {
                     client.sendMessage(new ChatMessage(temp, 1));
                     memeCheck = true;
                     client.closeClient();
                     return;
 
+            }
+            else if(temp.length() >= 5 && temp.substring(0,5).equals("/list"))    {
+                client.sendMessage(new ChatMessage(temp, 4));
+            }
+            else if(temp.length() >= 4 && temp.substring(0,4).equals("/msg"))    {
+                String[] recept = {"", "", ""};
+                String[] tempArr = temp.split(" ",3);
+                for(int i = 0; i < tempArr.length; i++) {
+                    recept[i] = tempArr[i];
+                }
+                if(recept[1].equals("") || recept[2].equals(""))    {
+                    client.sendMessage(new ChatMessage("Error", 3));
+                    System.out.println("System: Please use 3 arguments in the format /msg username message");
+                }
+                else {
+                    client.sendMessage(new ChatMessage(recept[2], 2, recept[1]));
+                }
             }
             else  {
                 client.sendMessage(new ChatMessage(temp, 0));

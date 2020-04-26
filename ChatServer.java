@@ -163,6 +163,29 @@ final class ChatServer {
            }
            return true;
        }
+
+       //TODO DIRECT MESSAGE
+       public void directMessage(String message, String username)   {
+
+           SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+           String tempDate = simpleDateFormat.format(new Date());
+
+           int count = 0;
+           for(ClientThread x : clients)   {
+               if(this.username.equals(username))   {
+                   for(ClientThread y : clients) {
+                       if(y.getUsername().equals(this.username) && count == 0) {
+                           y.writeMessage("System: You cant send a message to yourself");
+                            count++;
+                       }
+                   }
+               }
+               else if(x.getUsername().equals(username) && !x.getUsername().equals("Anonymous")) {
+                   x.writeMessage("(PM)" + this.username + ": " + message + " " + tempDate);
+               }
+           }
+       }
+
        //TODO THIS CLOSE CLASS DOES THE SAME AS LOGGING OUT - WORKS
        private void close()    {
             try {
@@ -222,8 +245,35 @@ final class ChatServer {
                     close();
                     return;
                 }
+                else if(cm.getType() == 2)   {
+                    directMessage(cm.getMessage(), cm.getRecipient());
+                    //broadcast(username + ":! " + CCP.filter(cm.getMessage()));
+                }
+                //This has to be dead so the server doesnt respond to type 3 messages
+                else if(cm.getType() == 3)   {
 
-                broadcast(username + ": " + CCP.filter(cm.getMessage()));
+                }
+                //TODO THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER
+                else if(cm.getType() == 4)   {
+                    ArrayList<String> tempArr = new ArrayList<>();
+
+                    for(ClientThread x : clients)   {
+                        if(!x.getUsername().equals(this.username) && !x.getUsername().equals("Anonymous"))  {
+                            tempArr.add(x.getUsername());
+                        }
+                    }
+                    String temp = "";
+                    for(String x : tempArr) {
+                        temp += x+", ";
+                    }
+                    temp = temp.substring(0,temp.length()-2);
+
+                    writeMessage(temp);
+                }
+                else    {
+                    broadcast(username + ": " + CCP.filter(cm.getMessage()));
+                }
+
 
 
             }

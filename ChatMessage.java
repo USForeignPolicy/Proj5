@@ -16,6 +16,7 @@ final class ChatMessage implements Serializable {
     // Variables, Constructors, Methods, etc.
     private String message;
     private int type;
+    private String recipient;
 
 
     //TODO THIS IS A TEST METHOD TO CREATE BLANK OBJECTS with new ChatMessage()
@@ -28,12 +29,22 @@ final class ChatMessage implements Serializable {
         this.type = type;
     }
 
+    public ChatMessage(String message, int type, String recipient)    {
+        this.message = message;
+        this.type = type;
+        this.recipient = recipient;
+    }
+
     public String getMessage()    {
         return message;
     }
 
     public int getType()    {
         return type;
+    }
+
+    public String getRecipient()    {
+        return recipient;
     }
 
 }
