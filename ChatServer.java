@@ -178,6 +178,7 @@ final class ChatServer {
                        if(y.getUsername().equals(this.username) && count == 0) {
                            y.writeMessage("System: You cant send a message to yourself");
                             count++;
+                            nameExists = true;
                        }
                    }
                }
