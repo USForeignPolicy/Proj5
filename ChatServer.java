@@ -170,6 +170,7 @@ final class ChatServer {
            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
            String tempDate = simpleDateFormat.format(new Date());
 
+           boolean nameExists = false;
            int count = 0;
            for(ClientThread x : clients)   {
                if(this.username.equals(username))   {
@@ -182,6 +183,15 @@ final class ChatServer {
                }
                else if(x.getUsername().equals(username) && !x.getUsername().equals("Anonymous")) {
                    x.writeMessage("(PM)" + this.username + ": " + message + " " + tempDate);
+                   nameExists = true;
+               }
+           }
+            //TODO messages back if the name in /msg doesnt exist
+           if(nameExists == false)   {
+               for(ClientThread x : clients) {
+                   if(x.getUsername().equals(this.username)) {
+                       x.writeMessage("System: The person you are trying to message doesn't exist");
+                   }
                }
            }
        }
