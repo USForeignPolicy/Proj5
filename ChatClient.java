@@ -1,3 +1,4 @@
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -134,6 +135,8 @@ final class ChatClient {
 
         //TODO THERE IS AN ERROR HERE FOR MESSAGE IF IT HAS NO PARAMETERS  - FIXED
         while(true) {
+            if(closeClient == true)
+                return;
             String temp = myObj.nextLine();
 
             if(temp.length() >= 7 && temp.substring(0,7).equals("/logout"))    {
@@ -188,6 +191,9 @@ final class ChatClient {
                     //might have to change this back to PRINT, made it PRINTLN since it looked ugly as fuck
                     System.out.println(msg);
                 }
+            } catch (EOFException e)    {
+                closeClient = true;
+                return;
             } catch (IOException | ClassNotFoundException e) {
                 if(closeClient == false)
                     e.printStackTrace();

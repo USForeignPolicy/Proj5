@@ -221,6 +221,7 @@ final class ChatServer {
             }
             else    {
                 writeMessage("Error, your username is not UNIQUE!");
+                remove(id);
                 close();
                 return false;
             }
@@ -281,7 +282,9 @@ final class ChatServer {
                     for(String x : tempArr) {
                         temp += x+", ";
                     }
-                    temp = temp.substring(0,temp.length()-2);
+
+                    if(temp.length() > 2)
+                        temp = temp.substring(0,temp.length()-2);
 
                     writeMessage(temp);
                 }
