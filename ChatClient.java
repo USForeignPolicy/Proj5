@@ -7,7 +7,6 @@ import java.net.SocketException;
 import java.util.Scanner;
 
 /**
- *
  * [Add your documentation here]
  *
  * @author your name and section
@@ -79,7 +78,7 @@ final class ChatClient {
     }
 
     //TODO made a method to close the client - WORKS
-    public void closeClient()   {
+    public void closeClient() {
         try {
             sInput.close();
             sOutput.close();
@@ -108,16 +107,16 @@ final class ChatClient {
         int port = 1500;
 
         int count = 0;
-        for(String x : args)    {
-            if(count == 0) {
+        for (String x : args) {
+            if (count == 0) {
                 username = x;
                 count++;
             }
-            if(count == 1) {
+            if (count == 1) {
                 username = x;
                 count++;
             }
-            if(count == 2) {
+            if (count == 2) {
                 username = x;
                 count++;
             }
@@ -134,37 +133,33 @@ final class ChatClient {
 
 
         //TODO THERE IS AN ERROR HERE FOR MESSAGE IF IT HAS NO PARAMETERS  - FIXED
-        while(true) {
-            if(closeClient == true)
+        while (true) {
+            if (closeClient == true)
                 return;
             String temp = myObj.nextLine();
 
-            if(temp.length() >= 7 && temp.substring(0,7).equals("/logout"))    {
-                    client.sendMessage(new ChatMessage(temp, 1));
-                    memeCheck = true;
-                    client.closeClient();
-                    closeClient = true;
-                    return;
+            if (temp.length() >= 7 && temp.substring(0, 7).equals("/logout")) {
+                client.sendMessage(new ChatMessage(temp, 1));
+                memeCheck = true;
+                client.closeClient();
+                closeClient = true;
+                return;
 
-            }
-            else if(temp.length() >= 5 && temp.substring(0,5).equals("/list"))    {
+            } else if (temp.length() >= 5 && temp.substring(0, 5).equals("/list")) {
                 client.sendMessage(new ChatMessage(temp, 4));
-            }
-            else if(temp.length() >= 4 && temp.substring(0,4).equals("/msg"))    {
+            } else if (temp.length() >= 4 && temp.substring(0, 4).equals("/msg")) {
                 String[] recept = {"", "", ""};
-                String[] tempArr = temp.split(" ",3);
-                for(int i = 0; i < tempArr.length; i++) {
+                String[] tempArr = temp.split(" ", 3);
+                for (int i = 0; i < tempArr.length; i++) {
                     recept[i] = tempArr[i];
                 }
-                if(recept[1].equals("") || recept[2].equals(""))    {
+                if (recept[1].equals("") || recept[2].equals("")) {
                     client.sendMessage(new ChatMessage("Error", 3));
                     System.out.println("System: Please use 3 arguments in the format /msg username message");
-                }
-                else {
+                } else {
                     client.sendMessage(new ChatMessage(recept[2], 2, recept[1]));
                 }
-            }
-            else  {
+            } else {
                 client.sendMessage(new ChatMessage(temp, 0));
             }
 
@@ -173,29 +168,29 @@ final class ChatClient {
     }
 
 
-   /**
-    * This is a private class inside of the ChatClient
-    * It will be responsible for listening for messages from the ChatServer.
-    * ie: When other clients send messages, the server will relay it to the client.
-    *
-    * @author your name and section
-    * @version date
-    */
+    /**
+     * This is a private class inside of the ChatClient
+     * It will be responsible for listening for messages from the ChatServer.
+     * ie: When other clients send messages, the server will relay it to the client.
+     *
+     * @author your name and section
+     * @version date
+     */
     private final class ListenFromServer implements Runnable {
         public void run() {
             try {
-                if(closeClient == true)
+                if (closeClient == true)
                     return;
-                while(true || memeCheck != true) {
+                while (true || memeCheck != true) {
                     String msg = (String) sInput.readObject();
                     //might have to change this back to PRINT, made it PRINTLN since it looked ugly as fuck
                     System.out.println(msg);
                 }
-            } catch (EOFException e)    {
+            } catch (EOFException e) {
                 closeClient = true;
                 return;
             } catch (IOException | ClassNotFoundException e) {
-                if(closeClient == false)
+                if (closeClient == false)
                     e.printStackTrace();
                 else
                     System.out.println("You have logged out!");

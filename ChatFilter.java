@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- *
  * [Add your documentation here]
  *
  * @author your name and section
@@ -34,7 +33,7 @@ public class ChatFilter {
     }
 
     //TODO THIS IS JUST A TESTING METHOD TO TEST BADWORDS
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         ChatFilter s = new ChatFilter("badwords.txt");
 
         System.out.println(s.filter("This iu is a test string hoosier that is meant to censor Bloomington all the bad sleep words null_pointer_exceptions"));
@@ -44,13 +43,13 @@ public class ChatFilter {
 
 
     //TODO this checks variations of a string such as iu. iu? iu! IU. IU? etc....
-    public boolean stringVar(String msg, String badWord)  {
+    public boolean stringVar(String msg, String badWord) {
 
-        if(msg.equals(badWord) || msg.equals(badWord+".") || msg.equals(badWord+"!") || msg.equals(badWord+"?") || msg.equals(badWord+",") )
+        if (msg.equals(badWord) || msg.equals(badWord + ".") || msg.equals(badWord + "!") || msg.equals(badWord + "?") || msg.equals(badWord + ","))
             return true;
-        if(msg.equals(badWord.toUpperCase()) || msg.equals(badWord.toUpperCase()+".") || msg.equals(badWord.toUpperCase()+"!") || msg.equals(badWord.toUpperCase()+"?") || msg.equals(badWord.toUpperCase()+",") )
+        if (msg.equals(badWord.toUpperCase()) || msg.equals(badWord.toUpperCase() + ".") || msg.equals(badWord.toUpperCase() + "!") || msg.equals(badWord.toUpperCase() + "?") || msg.equals(badWord.toUpperCase() + ","))
             return true;
-        if(msg.equals(badWord.substring(0,1).toUpperCase() + badWord.substring(1)) || msg.equals(badWord.substring(0,1).toUpperCase() + badWord.substring(1)+".") || msg.equals(badWord.substring(0,1).toUpperCase() + badWord.substring(1)+"!") || msg.equals(badWord.substring(0,1).toUpperCase() + badWord.substring(1)+"?") || msg.equals(badWord.substring(0,1).toUpperCase() + badWord.substring(1)+",") )
+        if (msg.equals(badWord.substring(0, 1).toUpperCase() + badWord.substring(1)) || msg.equals(badWord.substring(0, 1).toUpperCase() + badWord.substring(1) + ".") || msg.equals(badWord.substring(0, 1).toUpperCase() + badWord.substring(1) + "!") || msg.equals(badWord.substring(0, 1).toUpperCase() + badWord.substring(1) + "?") || msg.equals(badWord.substring(0, 1).toUpperCase() + badWord.substring(1) + ","))
             return true;
         return false;
 
@@ -61,26 +60,25 @@ public class ChatFilter {
         String[] messageArr = msg.split(" ");
 
 
-        for(int i = 0; i < messageArr.length; i ++) {
-            for(int j = 0; j < badArr.size(); j++)  {
-                String temp = messageArr[i].substring(messageArr[i].length()-1);
-                if(!temp.equals(".") && !temp.equals(",") && !temp.equals("!") && !temp.equals("?"))
+        for (int i = 0; i < messageArr.length; i++) {
+            for (int j = 0; j < badArr.size(); j++) {
+                String temp = messageArr[i].substring(messageArr[i].length() - 1);
+                if (!temp.equals(".") && !temp.equals(",") && !temp.equals("!") && !temp.equals("?"))
                     temp = "";
-                if(stringVar(messageArr[i], badArr.get(j))) {
+                if (stringVar(messageArr[i], badArr.get(j))) {
                     messageArr[i] = messageArr[i].replace(messageArr[i], numStars(badArr.get(j).length())) + temp;
                 }
             }
         }
 
 
-
         StringBuffer sb = new StringBuffer();
-        for(int i = 0; i < messageArr.length; i++) {
+        for (int i = 0; i < messageArr.length; i++) {
             sb.append(messageArr[i] + " ");
         }
 
         msg = sb.toString();
-        msg = msg.substring(0,msg.length()-1);
+        msg = msg.substring(0, msg.length() - 1);
 
 
         return msg;
@@ -88,16 +86,16 @@ public class ChatFilter {
 
 
     //TODO returns a string of ****** with the same length as the given string
-    public String numStars(int starLength)    {
+    public String numStars(int starLength) {
         String temp = "";
-        for(int i = 0; i < starLength; i ++)
+        for (int i = 0; i < starLength; i++)
             temp += "*";
         return temp;
     }
 
 
     //TODO Returns the Array of Badwords
-    public ArrayList<String> getBadArr()    {
+    public ArrayList<String> getBadArr() {
         return badArr;
     }
 

@@ -3,7 +3,6 @@
 import java.io.Serializable;
 
 /**
- *
  * [Add your documentation here]
  *
  * @author your name and section
@@ -20,30 +19,31 @@ final class ChatMessage implements Serializable {
 
 
     //TODO THIS IS A TEST METHOD TO CREATE BLANK OBJECTS with new ChatMessage()
-    public ChatMessage()    {
+    public ChatMessage() {
         this.message = "";
         this.type = 0;
     }
-    public ChatMessage(String message, int type)    {
+
+    public ChatMessage(String message, int type) {
         this.message = message;
         this.type = type;
     }
 
-    public ChatMessage(String message, int type, String recipient)    {
+    public ChatMessage(String message, int type, String recipient) {
         this.message = message;
         this.type = type;
         this.recipient = recipient;
     }
 
-    public String getMessage()    {
+    public String getMessage() {
         return message;
     }
 
-    public int getType()    {
+    public int getType() {
         return type;
     }
 
-    public String getRecipient()    {
+    public String getRecipient() {
         return recipient;
     }
 
