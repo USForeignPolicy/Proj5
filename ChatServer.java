@@ -267,7 +267,7 @@ final class ChatServer {
                 else if(cm.getType() == 3)   {
 
                 }
-                //TODO THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER
+                //TODO THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER & Excluding Anonymous people
                 else if(cm.getType() == 4)   {
                     ArrayList<String> tempArr = new ArrayList<>();
 
