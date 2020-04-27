@@ -7,10 +7,13 @@ import java.net.SocketException;
 import java.util.Scanner;
 
 /**
- * [Add your documentation here]
+ * Chat Client
+ * This allows for an individual to connect to a chat server
+ * so they can make fun and completely insightful conversation with theoretical internet
+ * Strangers
  *
- * @author your name and section
- * @version date
+ * @author Tobias Lind and Tristan Hargett L05
+ * @version 04/24/2020
  */
 final class ChatClient {
     private ObjectInputStream sInput;
@@ -77,7 +80,7 @@ final class ChatClient {
         }
     }
 
-    //TODO made a method to close the client - WORKS
+    //A method to close the client - WORKS
     public void closeClient() {
         try {
             sInput.close();
@@ -128,11 +131,11 @@ final class ChatClient {
         // Send an empty message to the server
         //client.sendMessage(new ChatMessage());
 
-        //TODO THIS IS WHERE THE CLIENT SENDS MESSAGES
+        //THIS IS WHERE THE CLIENT SENDS MESSAGES
         Scanner myObj = new Scanner(System.in);
 
 
-        //TODO THERE IS AN ERROR HERE FOR MESSAGE IF IT HAS NO PARAMETERS  - FIXED
+        //THERE was AN ERROR HERE FOR MESSAGE IF IT HAS NO PARAMETERS  - FIXED
         while (true) {
             if (closeClient == true)
                 return;

@@ -1,12 +1,12 @@
-
-
 import java.io.Serializable;
-
 /**
- * [Add your documentation here]
+
+ * Chat Message
+ * It's what the people want to say
+ * in object form
  *
- * @author your name and section
- * @version date
+ * @author Tobias Lind and Tristan Hargett L05
+ * @version 04/24/2020
  */
 final class ChatMessage implements Serializable {
     private static final long serialVersionUID = 6898543889087L;
@@ -18,7 +18,7 @@ final class ChatMessage implements Serializable {
     private String recipient;
 
 
-    //TODO THIS IS A TEST METHOD TO CREATE BLANK OBJECTS with new ChatMessage()
+    //THIS IS A TEST METHOD TO CREATE BLANK OBJECTS with new ChatMessage()
     public ChatMessage() {
         this.message = "";
         this.type = 0;

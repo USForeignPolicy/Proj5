@@ -11,10 +11,13 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * [Add your documentation here]
+ * Chat Server
+ * A simple server that clients can connect to and
+ * send fun thoughtful messages to each other
  *
- * @author Tobias and Tristan
- * @version date? Yes please
+ * @author Tobias Lind and Tristan Hargett L05
+ * @version 04/24/2020
+
  */
 final class ChatServer {
     private static int uniqueId = 0;
@@ -63,7 +66,7 @@ final class ChatServer {
                 filePath = args[1];
         }
         ChatFilter CCP = new ChatFilter(filePath);
-        //TODO DISPLAY ALL BANNED WORDS WHEN SERVER STARTS
+        //DISPLAYS ALL BANNED WORDS WHEN SERVER STARTS
         String bannedWordGreeting = "Banned words: ";
         for (String x : CCP.getBadArr()) {
             bannedWordGreeting += x + " ";
@@ -75,7 +78,8 @@ final class ChatServer {
     }
 
 
-    //TODO THIS IS THE BROADCAST FUNCTION: it prints to the terminal of the server, and then sends a message to all connected clients. - WORKS
+    //THIS IS THE BROADCAST FUNCTION: it prints to the terminal of the server,
+    // and then sends a message to all connected clients. - WORKS
     private void broadcast(String message) {
         //Get current Date in string format
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -92,7 +96,7 @@ final class ChatServer {
     }
 
 
-    //TODO REMOVE METHOD - WORKS
+    //REMOVE METHOD - WORKS
     public static Object myObj = new Object();
 
     private void remove(int id) {
@@ -105,12 +109,12 @@ final class ChatServer {
         }
     }
 
-    //TODO THIS ADDS TO THE ARRAY OF USERNAMES
+    //THIS ADDS TO THE ARRAY OF USERNAMES
     public void addUser(String name) {
         userArr.add(name);
     }
 
-    //TODO this checks if a username is in the UserArr
+    //this checks if a username is in the UserArr
     public boolean checkUser(String name) {
         if (name.equals("Anonymous"))
             return true;
@@ -126,8 +130,9 @@ final class ChatServer {
      * This is a private class inside of the ChatServer
      * A new thread will be created to run this every time a new client connects.
      *
-     * @author your name and section
-     * @version date
+     * @author Tristan H and Tobias L L05
+     * @version 04/24/2020
+
      */
     private final class ClientThread implements Runnable {
         Socket socket;
@@ -149,7 +154,8 @@ final class ChatServer {
             }
         }
 
-        //TODO WRITES MESSAGE, AND RETURNS TRUE OR RETURNS FALSE IF SOCKET NOT CONNECTED - WORKS
+        //WRITES MESSAGE, AND RETURNS TRUE OR RETURNS FALSE IF SOCKET NOT CONNECTED - WORKS
+
         private boolean writeMessage(String message) {
             synchronized (myObj) {
                 if (socket.isConnected() == false)
@@ -158,13 +164,14 @@ final class ChatServer {
                 try {
                     sOutput.writeObject(message);
                 } catch (IOException e) {
-                    //TODO THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
+                    //THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
                 }
                 return true;
             }
         }
 
-        //TODO DIRECT MESSAGE
+
+        //DIRECT MESSAGE
         public void directMessage(String message, String username) {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -186,7 +193,8 @@ final class ChatServer {
                     nameExists = true;
                 }
             }
-            //TODO messages back if the name in /msg doesnt exist
+  
+            //messages back if the name in /msg doesnt exist
             if (nameExists == false) {
                 for (ClientThread x : clients) {
                     if (x.getUsername().equals(this.username)) {
@@ -196,7 +204,8 @@ final class ChatServer {
             }
         }
 
-        //TODO THIS CLOSE CLASS DOES THE SAME AS LOGGING OUT - WORKS
+        //THIS CLOSE CLASS DOES THE SAME AS LOGGING OUT - WORKS
+
         private void close() {
             try {
                 sInput.close();
@@ -208,9 +217,10 @@ final class ChatServer {
 
         }
 
-        //TODO This uses addUser and checkUser during startup to add appropriately to the arraylist and send an error if not.
+        //This uses addUser and checkUser during startup to add appropriately to the arraylist and send an error if not.
         public boolean runChecks() {
-            //TODO ADD USERNAME TO USERARR and broadcast that they have joined
+            //ADDS USERNAME TO USERARR and broadcast that they have joined
+
             if (checkUser(getUsername())) {
                 addUser(getUsername());
                 broadcast(getUsername() + " has joined the chat!");
@@ -234,7 +244,8 @@ final class ChatServer {
          */
         ChatFilter CCP = new ChatFilter(filePath);
 
-        //TODO DOWN HERE IS WHERE THE SERVER READS THE MESSAGES FROM CLIENTS AND ANSWERS
+        //DOWN HERE IS WHERE THE SERVER READS THE MESSAGES FROM CLIENTS AND ANSWERS
+
         @Override
         public void run() {
             // Read the username sent to you by client
@@ -246,11 +257,13 @@ final class ChatServer {
             while (true) {
                 try {
                     cm = (ChatMessage) sInput.readObject();
+
                 } catch (SocketException ez) {
                     broadcast("System: " + username + " has forcefully closed out of the chat!");
                     remove(id);
                     userArr.remove(username);
                     return;
+
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -270,7 +283,9 @@ final class ChatServer {
                 else if (cm.getType() == 3) {
 
                 }
-                //TODO THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER & Excluding Anonymous people
+
+                //THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER & Excluding Anonymous people
+
                 else if (cm.getType() == 4) {
                     ArrayList<String> tempArr = new ArrayList<>();
 
@@ -292,8 +307,6 @@ final class ChatServer {
                     broadcast(username + ": " + CCP.filter(cm.getMessage()));
 
                 }
-
-
             }
         }
     }
