@@ -153,16 +153,17 @@ final class ChatServer {
 
         //TODO WRITES MESSAGE, AND RETURNS TRUE OR RETURNS FALSE IF SOCKET NOT CONNECTED - WORKS
        private boolean writeMessage(String message)   {
+           synchronized (myObj) {
+               if (socket.isConnected() == false)
+                   return false;
 
-            if(socket.isConnected() == false)
-                return false;
-
-           try {
-               sOutput.writeObject(message);
-           } catch (IOException e) {
-               //TODO THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
+               try {
+                   sOutput.writeObject(message);
+               } catch (IOException e) {
+                   //TODO THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
+               }
+               return true;
            }
-           return true;
        }
 
        //TODO DIRECT MESSAGE
