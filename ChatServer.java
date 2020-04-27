@@ -249,6 +249,7 @@ final class ChatServer {
                 } catch (SocketException ez) {
                     broadcast("System: " + username + " has forcefully closed out of the chat!");
                     remove(id);
+                    userArr.remove(username);
                     return;
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -258,6 +259,7 @@ final class ChatServer {
                 if (cm.getType() == 1) {
                     broadcast("System: " + username + " has logged out of the chat!");
                     remove(id);
+                    userArr.remove(username);
                     close();
                     return;
                 } else if (cm.getType() == 2) {
