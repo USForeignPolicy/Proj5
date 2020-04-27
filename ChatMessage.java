@@ -1,8 +1,6 @@
-
-
 import java.io.Serializable;
-
 /**
+
  * Chat Message
  * It's what the people want to say
  * in object form

@@ -44,7 +44,6 @@ public class ChatFilter {
 
     }
 
-
     //This checks variations of a string such as iu. iu? iu! IU. IU? etc....
     public boolean stringVar(String msg, String badWord) {
 
@@ -94,7 +93,6 @@ public class ChatFilter {
         return msg;
     }
 
-
     //Returns a string of ****** with the same length as the given string
     public String numStars(int starLength) {
         String temp = "";
@@ -102,7 +100,6 @@ public class ChatFilter {
             temp += "*";
         return temp;
     }
-
 
     //Returns the Array of Badwords
     public ArrayList<String> getBadArr() {

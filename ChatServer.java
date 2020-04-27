@@ -17,6 +17,7 @@ import java.util.List;
  *
  * @author Tobias Lind and Tristan Hargett L05
  * @version 04/24/2020
+
  */
 final class ChatServer {
     private static int uniqueId = 0;
@@ -131,6 +132,7 @@ final class ChatServer {
      *
      * @author Tristan H and Tobias L L05
      * @version 04/24/2020
+
      */
     private final class ClientThread implements Runnable {
         Socket socket;
@@ -153,6 +155,7 @@ final class ChatServer {
         }
 
         //WRITES MESSAGE, AND RETURNS TRUE OR RETURNS FALSE IF SOCKET NOT CONNECTED - WORKS
+
         private boolean writeMessage(String message) {
             synchronized (myObj) {
                 if (socket.isConnected() == false)
@@ -162,11 +165,11 @@ final class ChatServer {
                     sOutput.writeObject(message);
                 } catch (IOException e) {
                     //THIS CATCHES THE SOCKET CLOSED EXCEPTION AND TELLS PEOPLE THAT THE USER HAS LEFT.
-                    broadcast(this.username + " has left the chat!");
                 }
                 return true;
             }
         }
+
 
         //DIRECT MESSAGE
         public void directMessage(String message, String username) {
@@ -190,6 +193,7 @@ final class ChatServer {
                     nameExists = true;
                 }
             }
+  
             //messages back if the name in /msg doesnt exist
             if (nameExists == false) {
                 for (ClientThread x : clients) {
@@ -201,6 +205,7 @@ final class ChatServer {
         }
 
         //THIS CLOSE CLASS DOES THE SAME AS LOGGING OUT - WORKS
+
         private void close() {
             try {
                 sInput.close();
@@ -215,6 +220,7 @@ final class ChatServer {
         //This uses addUser and checkUser during startup to add appropriately to the arraylist and send an error if not.
         public boolean runChecks() {
             //ADDS USERNAME TO USERARR and broadcast that they have joined
+
             if (checkUser(getUsername())) {
                 addUser(getUsername());
                 broadcast(getUsername() + " has joined the chat!");
@@ -239,6 +245,7 @@ final class ChatServer {
         ChatFilter CCP = new ChatFilter(filePath);
 
         //DOWN HERE IS WHERE THE SERVER READS THE MESSAGES FROM CLIENTS AND ANSWERS
+
         @Override
         public void run() {
             // Read the username sent to you by client
@@ -250,6 +257,12 @@ final class ChatServer {
             while (true) {
                 try {
                     cm = (ChatMessage) sInput.readObject();
+
+                } catch (SocketException ez) {
+                    broadcast("System: " + username + " has forcefully closed out of the chat!");
+                    remove(id);
+                    return;
+
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -268,7 +281,9 @@ final class ChatServer {
                 else if (cm.getType() == 3) {
 
                 }
+
                 //THIS PRINTS THE LISTS OF ALL PEOPLE ON SERVER EXCLUDING SENDER & Excluding Anonymous people
+
                 else if (cm.getType() == 4) {
                     ArrayList<String> tempArr = new ArrayList<>();
 
