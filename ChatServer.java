@@ -250,6 +250,10 @@ final class ChatServer {
             while(true) {
                 try {
                     cm = (ChatMessage) sInput.readObject();
+                } catch (SocketException ez)    {
+                    broadcast("System: " + username + " has forcefully closed out of the chat!");
+                    remove(id);
+                    return;
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
